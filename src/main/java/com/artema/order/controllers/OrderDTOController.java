@@ -5,10 +5,12 @@ import com.artema.order.model.enumerated.Status;
 import com.artema.order.repositopies.CustomerRepository;
 import com.artema.order.repositopies.OrderRepository;
 import com.artema.order.repositopies.OrderFileRepository;
+import com.artema.order.services.CustomerService;
+import com.artema.order.services.OrderPaymentService;
+import com.artema.order.services.OrderService;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -23,12 +25,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/order/dto")
 @Data
-@Transactional(readOnly = true)
 public class OrderDTOController {
 
    private final OrderRepository orderRepository;
-   private final CustomerRepository customerRepository;
+   private final OrderPaymentService orderPaymentService;
    private final OrderFileRepository orderFileRepository;
+   private final CustomerService customerService;
+   private final OrderService orderService;
 
     @PostMapping("/submitOrder")
     public ResponseEntity<String> submitOrder(
@@ -40,12 +43,12 @@ public class OrderDTOController {
         customer.setName(data.getName());
         customer.setPhone(data.getPhone());
         customer.setEmail(data.getEmail());
-
+        Long customerId = customerService.saveOrGetId(customer);
 
         // Создаём объект Order
         Order order = new Order();
         order.setOrderDescription(data.getOrderDescription());
-        order.setCustomerId(customer.getId());
+        order.setCustomerId(customerId);
         OrderStatus orderStatus = new OrderStatus();
         orderStatus.setStatus(Status.NEW);
         orderStatus.setDateOfChange(LocalDate.now());
@@ -56,8 +59,12 @@ public class OrderDTOController {
 
 
         // Сохраняем пользователя и заказ (через сервис или репозитории)
-        customerRepository.save(customer);
-        orderRepository.save(order);
+
+        Long orderId = orderService.saveAndGetId(order);
+
+        OrderPayment orderPayment = new OrderPayment();
+        orderPayment.setOrderId(orderId);
+        orderPaymentService.save(orderPayment);
 
         // Обрабатываем файлы, если они есть
         if (files != null && files.length > 0) {

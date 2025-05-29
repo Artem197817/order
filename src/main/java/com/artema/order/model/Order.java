@@ -1,10 +1,7 @@
 package com.artema.order.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +27,11 @@ public class Order {
 
     private String orderDescription;
 
-    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     // Храним историю статусов как список строк или enum
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "order_status_history", joinColumns = @JoinColumn(name = "order_id"))
-    @Column(name = "status")
     private List<OrderStatus> orderHistoryList = new ArrayList<>();
 
     // Связь с файлами заказа
