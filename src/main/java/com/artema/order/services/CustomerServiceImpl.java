@@ -35,4 +35,9 @@ public class CustomerServiceImpl implements CustomerService{
         Optional<Customer> customer = customerRepository.findById(id);
         return customer.orElse(null);
     }
+
+    @Override
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
 }

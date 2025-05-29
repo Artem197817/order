@@ -4,6 +4,7 @@ import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.Transient;
 
 import java.time.LocalDate;
 
@@ -14,7 +15,10 @@ import java.time.LocalDate;
 public class Payment {
 
     private Double payment;
-    private LocalDate paymentData;
+    private String paymentData;
     private String comment;
+
+    @Transient
+    private Long orderId;
 
 }
