@@ -5,11 +5,9 @@ import com.artema.order.model.CustomerOrderDTO;
 import com.artema.order.model.CustomerOrderDTOMini;
 import com.artema.order.model.enumerated.Status;
 import com.artema.order.services.CustomerOrderDTOService;
+import com.artema.order.services.OrderService;
 import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,19 +17,27 @@ import java.util.List;
 public class OrderController {
 
     private final CustomerOrderDTOService customerOrderDTOService;
+    private final OrderService orderService;
 
     @GetMapping("/status/{status}")
     public List<CustomerOrderDTOMini> findByStatus(@PathVariable Status status) {
-        return  customerOrderDTOService.findByStatus(status);
+        return customerOrderDTOService.findByStatus(status);
     }
 
     @GetMapping("/{orderId}")
     public CustomerOrderDTO findOrderById(@PathVariable Long orderId) {
-        return  customerOrderDTOService.findOrderById(orderId);
+        return customerOrderDTOService.findOrderById(orderId);
     }
 
     @GetMapping("/")
     public List<CustomerOrderDTOMini> findAllOrder() {
-        return  customerOrderDTOService.findAllOrder();
+        return customerOrderDTOService.findAllOrder();
     }
+
+    @DeleteMapping("/delete_order/{id}")
+    public void deleteOrder(@PathVariable long id) {
+        orderService.deleteOrder(id);
+    }
+
+
 }

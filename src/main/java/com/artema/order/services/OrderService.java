@@ -14,4 +14,6 @@ public interface OrderService {
     List<Order> findByStatus(Status status);
 
     Order findOrderById(Long orderId);
+
+    void deleteOrder(long id);
 }

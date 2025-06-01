@@ -1,7 +1,9 @@
 package com.artema.order.services;
 
 import com.artema.order.model.Order;
+import com.artema.order.model.OrderPayment;
 import com.artema.order.model.enumerated.Status;
+import com.artema.order.repositopies.OrderPaymentRepository;
 import com.artema.order.repositopies.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderPaymentService orderPaymentService;
 
     @Override
     public List<Order> findAllOrder() {
@@ -35,5 +38,14 @@ public class OrderServiceImpl implements OrderService {
     public Order findOrderById(Long orderId) {
         Optional<Order> order = orderRepository.findById(orderId);
         return order.orElse(null);
+    }
+
+    @Override
+    public void deleteOrder(long id) {
+        OrderPayment orderPayment = orderPaymentService.findByOrderId(id);
+        if(orderPayment != null){
+            orderPaymentService.delete(orderPayment.getId());
+        }
+        orderRepository.deleteById(id);
     }
 }

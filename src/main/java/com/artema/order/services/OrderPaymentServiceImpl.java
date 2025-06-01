@@ -25,4 +25,9 @@ public class OrderPaymentServiceImpl implements OrderPaymentService{
         Optional<OrderPayment> orderPayment = orderPaymentRepository.findById(orderId);
         return orderPayment.orElse(null);
     }
+
+    @Override
+    public void delete(Long id) {
+        orderPaymentRepository.deleteById(id);
+    }
 }

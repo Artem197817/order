@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Data
 public class PaymentController {
 
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
 
     @GetMapping("/{id}")
     public OrderPayment findByOrderId(@PathVariable Long id) {
