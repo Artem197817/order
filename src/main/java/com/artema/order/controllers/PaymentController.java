@@ -20,7 +20,7 @@ public class PaymentController {
 }
 
     @PostMapping("save_payment")
-    public String saveEmployee(@RequestBody Payment payment) {
+    public String saveOrderPayment(@RequestBody Payment payment) {
         paymentService.saveOrderPayment(payment);
         return "Payment successfully saved";
     }

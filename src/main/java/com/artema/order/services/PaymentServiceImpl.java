@@ -25,6 +25,7 @@ public class PaymentServiceImpl implements PaymentService{
 
    @Override
    public void saveOrderPayment(Payment payment) {
+       System.out.println(payment);
       if(payment != null){
          OrderPayment orderPayment = findByOrderId(payment.getOrderId());
          if(orderPayment != null){
@@ -46,4 +47,6 @@ public class PaymentServiceImpl implements PaymentService{
          orderPaymentRepository.save(orderPaymentNew);
       }
    }
+
+
 }

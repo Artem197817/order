@@ -62,9 +62,7 @@ public class OrderDTOController {
 
         Long orderId = orderService.saveAndGetId(order);
 
-        OrderPayment orderPayment = new OrderPayment();
-        orderPayment.setOrderId(orderId);
-        orderPaymentService.save(orderPayment);
+
 
         // Обрабатываем файлы, если они есть
         if (files != null && files.length > 0) {

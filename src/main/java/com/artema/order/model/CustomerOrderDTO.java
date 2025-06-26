@@ -29,7 +29,7 @@ public class CustomerOrderDTO {
     private String orderDescription;
 
     // Current order status
-    private Status orderStatus;
+    private OrderStatus orderStatus;
 
     // Order status history
     private List<OrderStatusInfo> orderStatusHistory;

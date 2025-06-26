@@ -1,12 +1,11 @@
 package com.artema.order.controllers;
 
 import com.artema.order.model.Customer;
+import com.artema.order.model.CustomerOrderDTOMini;
 import com.artema.order.services.CustomerService;
 import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +26,16 @@ public class CustomersController {
     public List<Customer> findAll() {
         return customerService.findAll();
     }
+
+    @DeleteMapping("/delete_customer/{id}")
+    public String deleteCustomer (@PathVariable long id) {
+       return customerService.deleteById(id);
+    }
+    @PostMapping("/filter-by-statuses")
+    public ResponseEntity<List<Customer>> findCustomersByOrderStatuses(@RequestBody List<String> statuses) {
+        List<Customer> customers = customerService.findCustomersByOrderStatuses(statuses);
+        return ResponseEntity.ok(customers);
+    }
+
+
 }

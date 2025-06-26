@@ -9,4 +9,6 @@ import java.util.List;
 public interface OrderFileRepository extends JpaRepository<OrderFile, Long> {
 
     List<OrderFile> findByOrderId(Long orderId);
+
+    OrderFile findOrderFileById(Long id);
 }

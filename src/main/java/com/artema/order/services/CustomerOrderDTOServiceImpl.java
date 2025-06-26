@@ -41,7 +41,7 @@ public class CustomerOrderDTOServiceImpl implements CustomerOrderDTOService{
         dto.setOrderName(order.getOrderName());
         dto.setOrderPrice(order.getOrderPrice());
         dto.setOrderDescription(order.getOrderDescription());
-        dto.setOrderStatus(order.getOrderStatus().getStatus());
+        dto.setOrderStatus(order.getOrderStatus());
 
         // Order status history
         dto.setOrderStatusHistory(order.getOrderHistoryList().stream()
@@ -118,4 +118,16 @@ public class CustomerOrderDTOServiceImpl implements CustomerOrderDTOService{
 
         return dtoMini;
     }
-}
+
+    @Override
+    public List<CustomerOrderDTOMini> findOrderByCustomerId(Long id) {
+        List<Order> orders = orderService.findOrderByCustomerId(id);
+        if(orders != null && orders.size() > 0){
+            return orders.stream()
+                    .map(this::mapToCustomerOrderDTOMini)
+                    .toList();
+        }
+        return new ArrayList<>();
+    }
+    }
+
