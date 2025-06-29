@@ -68,5 +68,21 @@ public class CustomerServiceImpl implements CustomerService{
 
         return customerRepository.findAllById(customerIds);
     }
+    public List<Customer> findCustomersWithoutOrders() {
+        List<Customer> allCustomers = customerRepository.findAll();
+        List<Order> allOrders = orderRepository.findAll();
 
+        Set<Long> customerIdsWithOrders = allOrders.stream()
+                .map(Order::getCustomerId)
+                .collect(Collectors.toSet());
+
+        return allCustomers.stream()
+                .filter(customer -> !customerIdsWithOrders.contains(customer.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Customer> searchCustomersByKeyword(String keyword) {
+        return customerRepository.findByNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrFatherNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrPhoneContainingIgnoreCase(
+                keyword, keyword, keyword, keyword, keyword);
+    }
 }

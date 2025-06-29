@@ -37,5 +37,13 @@ public class CustomersController {
         return ResponseEntity.ok(customers);
     }
 
+    @GetMapping("/without-orders")
+    public List<Customer> findCustomersWithoutOrders() {
+        return customerService.findCustomersWithoutOrders();
+    }
 
+    @GetMapping("/search")
+    public List<Customer> searchCustomers(@RequestParam("q") String query) {
+        return customerService.searchCustomersByKeyword(query);
+    }
 }

@@ -16,5 +16,7 @@ public interface CustomerService {
 
     String deleteById(Long id);
     List<Customer> findCustomersByOrderStatuses(List<String> statusNames);
+    List<Customer> findCustomersWithoutOrders();
+    List<Customer> searchCustomersByKeyword(String keyword);
 
 }
